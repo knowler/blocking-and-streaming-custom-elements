@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en-ca">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="dark light">
+    <title>Better Progressive Enhancement Patterns for Custom Elements</title>
+
+    <link rel="modulepreload" href="./elements/site-header-element.js">
+    <link rel="modulepreload" href="./elements/site-footer-element.js">
+    <link rel="preload" href="./elements/site-header-element.css" as="script" crossorigin>
+    <link rel="preload" href="./elements/site-footer-element.css" as="script" crossorigin>
+
+    <link rel="stylesheet" href="./main.css">
+
+    <script type="module" async blocking="render">
+      import { SiteHeaderElement } from "./elements/site-header-element.js";
+      customElements.define("site-header", SiteHeaderElement);
+    </script>
+
+    <script type="module" async blocking="render">
+      import { SiteFooterElement } from "./elements/site-footer-element.js";
+      customElements.define("site-footer", SiteFooterElement);
+    </script>
+
+  </head>
+  <body>
+    <template shadowrootmode="open">
+      <style>
+        slot[name="main"] > p {
+          font-size: 3rem;
+          padding-block: 2rem;
+        }
+
+        ::slotted(article) {
+          transition: 1s 0.2s ease-in-out opacity;
+        }
+
+        @starting-style {
+          ::slotted(article) {
+            opacity: 0;
+          }
+        }
+      </style>
+      <slot name="header"></slot>
+      <main>
+        <slot name="main"><p>Loading…</p></slot>
+      </main>
+      <slot name="footer"></slot>
+    </template>
+    <site-header slot="header">
+      <header>
+        <nav>
+          <a href="/">Nathan Knowler</a>
+        </nav>
+      </header>
+    </site-header>
+    <site-footer slot="footer"></site-footer>

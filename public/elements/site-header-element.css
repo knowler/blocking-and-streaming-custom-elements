@@ -1,0 +1,6 @@
+:host {
+  display: block;
+  padding: 1rem;
+  border: 0.125rem dashed CanvasText;
+  border-radius: 0.5rem;
+}
